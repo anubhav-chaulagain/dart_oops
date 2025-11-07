@@ -1,7 +1,9 @@
 import 'package:dart_oops/bank_account.dart';
+import 'package:dart_oops/interest_bearing.dart';
 
-class PremiumAccount extends BankAccount {
+class PremiumAccount extends BankAccount implements InterestBearing {
   final double minBalance = 10000;
+  final double _interest = 5;
 
   PremiumAccount({
     required super.accNumber,
@@ -25,7 +27,8 @@ class PremiumAccount extends BankAccount {
     }
   }
 
-  double interestCalculation(double time) {
-    return (getBalance * time * 2) / 100;
+  @override
+  double calculateInterest(double time) {
+    return (getBalance * time * _interest) / 100;
   }
 }
