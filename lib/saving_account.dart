@@ -1,9 +1,11 @@
 import 'package:dart_oops/bank_account.dart';
+import 'package:dart_oops/interest_bearing.dart';
 
-class SavingAccount extends BankAccount {
+class SavingAccount extends BankAccount implements InterestBearing {
   final double minBalance = 500;
   int _withdrawThisMonth = 0;
   final int _withdrawlLimit = 3;
+  final double _interestRate = 2;
 
   SavingAccount({
     required super.accNumber,
@@ -34,11 +36,12 @@ class SavingAccount extends BankAccount {
     }
   }
 
-  double interestCalculation(double time) {
-    return (getBalance * time * 2) / 100;
-  }
-
   void resetWithdrawlThisMonth() {
     _withdrawThisMonth = 0;
+  }
+
+  @override
+  double calculateInterest(double time) {
+    return (getBalance * time * _interestRate) / 100;
   }
 }
