@@ -8,12 +8,15 @@ class CheckingAccount extends BankAccount {
     required super.accNumber,
     required super.accHolderName,
     required super.balance,
+    required super.type,
+    required super.history,
   });
 
   @override
   void deposit(double amount) {
     setBalance = getBalance + amount;
     print("Deposited Successfully !");
+    history.add("$amount has been deposited.");
     if (getBalance < 0 && getBalance + amount > 0) {
       _overdraft = false;
     }
@@ -30,6 +33,12 @@ class CheckingAccount extends BankAccount {
     } else {
       setBalance = getBalance - amount;
       print("Amount $amount has been withdrawn !");
+      history.add("$amount has been withdrawn");
     }
+  }
+
+  @override
+  double calculateInterest(double time) {
+    return 0;
   }
 }

@@ -11,17 +11,20 @@ class SavingAccount extends BankAccount implements InterestBearing {
     required super.accNumber,
     required super.accHolderName,
     required super.balance,
+    required super.type,
+    required super.history,
   });
 
   @override
   void deposit(double amount) {
     setBalance = getBalance + amount;
     print("Deposited Successfully !");
+    history.add("$amount has been deposited.");
   }
 
   @override
   void withdraw(double amount) {
-    if (_withdrawThisMonth > _withdrawlLimit) {
+    if (_withdrawThisMonth >= _withdrawlLimit) {
       print(
         "The limit of withdrawl for this month ($_withdrawlLimit) has been reached !!!",
       );
@@ -32,6 +35,7 @@ class SavingAccount extends BankAccount implements InterestBearing {
         setBalance = getBalance - amount;
         print("Amount $amount has been withdrawn !");
         _withdrawThisMonth++;
+        history.add("$amount has been withdrawn!");
       }
     }
   }

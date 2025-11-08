@@ -9,12 +9,15 @@ class PremiumAccount extends BankAccount implements InterestBearing {
     required super.accNumber,
     required super.accHolderName,
     required super.balance,
+    required super.type,
+    required super.history,
   });
 
   @override
   void deposit(double amount) {
     setBalance = getBalance + amount;
     print("Deposited Successfully !");
+    history.add("$amount has been deposited.");
   }
 
   @override
@@ -24,6 +27,7 @@ class PremiumAccount extends BankAccount implements InterestBearing {
     } else {
       setBalance = getBalance - amount;
       print("Amount $amount has been withdrawn !");
+      history.add("$amount has been withdrawn");
     }
   }
 

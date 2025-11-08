@@ -3,15 +3,21 @@ abstract class BankAccount {
   int _accNumber;
   String _accHolderName;
   double _balance;
+  String _type;
+  List<String> history;
 
   // constructor
   BankAccount({
     required int accNumber,
     required String accHolderName,
     required double balance,
+    required String type,
+    required List<String> history,
   }) : _accNumber = accNumber,
        _accHolderName = accHolderName,
-       _balance = balance;
+       _balance = balance,
+       _type = type,
+       history = history;
 
   // getters and setters
   int get getAccNumber {
@@ -41,10 +47,12 @@ abstract class BankAccount {
   // behaviours
   void withdraw(double amount);
   void deposit(double amount);
+  double calculateInterest(double time);
 
   void displayInfo() {
     print(
-      "Acc/ no: $_accNumber \n Acc/ Name: $_accHolderName \n Balance: $_balance",
+      "Acc/ no: $_accNumber \n Acc/ Name: $_accHolderName \n Balance: $_balance \n Type: $_type",
     );
+    print("- - - - - - - - - - - -");
   }
 }

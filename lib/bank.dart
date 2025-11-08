@@ -1,47 +1,50 @@
 import 'package:dart_oops/bank_account.dart';
 import 'package:dart_oops/checking_account.dart';
+import 'package:dart_oops/interest_bearing.dart';
 import 'package:dart_oops/premium_account.dart';
 import 'package:dart_oops/saving_account.dart';
 
 class Bank {
   final Map<int, BankAccount> accounts = {};
 
-  int _accNumber;
-  String _accHolderName;
-  double _balance;
-
-  Bank({
+  void createNewAcc({
+    required String type,
     required int accNumber,
     required String accHolderName,
     required double balance,
-  }) : _accNumber = accNumber,
-       _accHolderName = accHolderName,
-       _balance = balance;
-
-  void createNewAcc({required String type}) {
+  }) {
     switch (type) {
       case "saving":
-        accounts[_accNumber] = SavingAccount(
-          accNumber: 202500001,
-          accHolderName: "Anubhav Chaulagain",
-          balance: 500,
+        accounts[accNumber] = SavingAccount(
+          accNumber: accNumber,
+          accHolderName: accHolderName,
+          balance: balance,
+          type: type,
+          history: <String>[],
         );
         break;
 
       case "checking":
-        accounts[_accNumber] = CheckingAccount(
-          accNumber: 202500001,
-          accHolderName: "Anubhav Chaulagain",
-          balance: 500,
+        accounts[accNumber] = CheckingAccount(
+          accNumber: accNumber,
+          accHolderName: accHolderName,
+          balance: balance,
+          type: type,
+          history: <String>[],
         );
         break;
 
       case "premium":
-        accounts[_accNumber] = PremiumAccount(
-          accNumber: 202500001,
-          accHolderName: "Anubhav Chaulagain",
-          balance: 500,
+        accounts[accNumber] = PremiumAccount(
+          accNumber: accNumber,
+          accHolderName: accHolderName,
+          balance: balance,
+          type: type,
+          history: <String>[],
         );
+        break;
+      default:
+        print("Wrong Type!!!");
         break;
     }
   }
@@ -67,9 +70,26 @@ class Bank {
       } else {
         acc1.withdraw(amt);
         acc2!.deposit(amt);
+        acc1.history.add("$amt has been sent to account: $acc2");
+        acc2.history.add("$amt has been received from account: $acc1");
       }
     } else {
       throw Exception("Accounts not found!");
     }
+  }
+
+  void applyMonthyInterest() {
+    accounts.forEach((accNum, bankAccount) {
+      var acc = accounts[accNum];
+      if (acc is InterestBearing) {
+        acc?.setBalance = acc.getBalance + acc.calculateInterest(1 / 12);
+      }
+    });
+  }
+
+  void generateReport() {
+    accounts.forEach((accNum, acc) {
+      acc.displayInfo();
+    });
   }
 }
